@@ -5,60 +5,57 @@ import * as api from "@/api/auth";
 import { $goto } from "@/hooks/useGoto";
 import { log, tokenManager, encodePassword } from "@/tools";
 import { showErrMsg } from "@/tools/notify";
-import { useLoading } from "@/hooks/useLoading";
-import type { LoginFormType, LoginResponseType } from "@/types/auth";
+import type { ILoginForm, ILoginResponse } from "@/types/auth";
+import { useRequest } from "alova/client";
 
 export const AUTH_USER_KEY = "__auth_user__";
 export const useAuth = defineStore("auth", () => {
-  const loginForm = ref<LoginFormType>({
-    account: "",
-    password: "",
-  });
-  function setLoginFormData(data?: LoginFormType) {
-    if (!data) {
-      return;
-    }
+  const loginForm = ref<ILoginForm>({ account: "", password: "" });
+  const authUser = useLocalStorage<ILoginResponse>(AUTH_USER_KEY, {} as ILoginResponse);
+  const isLogin = computed<boolean>(() => Boolean(authUser.value.id));
+
+  function _setLoginFormData(data?: ILoginForm) {
+    if (!data) return;
     loginForm.value = encodePassword(data);
   }
 
-  const $loading = useLoading();
-  const authUser = useLocalStorage(AUTH_USER_KEY, {} as LoginResponseType);
-  const isLogin = computed<boolean>(() => Boolean(authUser.value.id));
-  function setAuthUser(authUer: LoginResponseType) {
+  function setAuthUser(authUer: ILoginResponse) {
     authUser.value = authUer;
   }
 
-  async function login(data?: LoginFormType) {
-    setLoginFormData(data);
-    $loading.show();
-    try {
-      const loginRes = await api.login(loginForm.value);
-      log("[authStore@login]登录接口响应", loginRes);
-      setAuthUser(loginRes);
+  const { loading: isLoading, send: sendLoginRequest } = useRequest((data: ILoginForm) => api.login(data), {
+    initialData: {} as ILoginResponse,
+    immediate: false,
+  })
+    .onSuccess(({ data }) => {
+      log("[authStore@login]登录接口响应", data);
+      setAuthUser(data);
       tokenManager.saveAccessToken(authUser.value.accessToken);
       tokenManager.saveRefreshToken(authUser.value.refreshToken);
-      await $goto.redirectToHome();
-    } catch (e) {
+      $goto.redirectToHome();
+    })
+    .onError((alovaInst) => {
       showErrMsg("登录失败,请稍后重试");
-      log("[authStore@login]登录失败,请稍后重试:", e);
-    } finally {
-      $loading.hide();
-    }
+      log("[authStore@login]登录失败,请稍后重试:", alovaInst);
+    });
+
+  function login(data?: ILoginForm) {
+    _setLoginFormData(data);
+    return sendLoginRequest(loginForm.value);
   }
 
   async function logout() {
     tokenManager.removeTokens();
-    setAuthUser({} as LoginResponseType);
+    setAuthUser({} as ILoginResponse);
     $goto.redirectToLogin();
   }
 
   return {
-    isLoading: $loading.isLoading,
+    isLoading,
     isLogin,
     authUser,
     loginForm,
     logout,
     login,
-    setLoginFormData, // expose for unit test
   };
 });

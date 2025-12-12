@@ -1,13 +1,11 @@
 import { md5 } from "./md5";
 
-interface HavePasswordFiled {
-  password: string;
-  [key: string]: any;
-}
-
-export function encodePassword<T extends HavePasswordFiled>(data: T): T {
-  return {
-    ...data,
-    password: md5(data.password),
-  };
+export function encodePassword<T extends object>(data: T): T {
+  if ("password" in data && typeof data.password === "string") {
+    return {
+      ...data,
+      password: md5(data.password),
+    };
+  }
+  return data;
 }

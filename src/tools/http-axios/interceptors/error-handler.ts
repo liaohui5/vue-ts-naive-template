@@ -1,6 +1,6 @@
 import { refreshAccessToken } from "@/api/auth";
 import { log } from "@/tools";
-import { http, isRefreshTokenRequest, retryFailedRequest, withBearerToken } from "@/tools/http";
+import { http, isRefreshTokenRequest, retryFailedRequest, withBearerToken } from "@/tools/http-axios";
 import { showErrMsg } from "@/tools/notify";
 import { hasRefreshToken, saveAccessToken } from "@/tools/token-manager";
 import type { AxiosError, AxiosRequestConfig } from "axios";

@@ -6,5 +6,4 @@ export const loginZod = z.object({
   password: z.string().min(6, "密码至少6位").max(16, "密码最多16位"),
 });
 
-export type LoginFormType = z.infer<typeof loginZod>;
-
+export type ILoginForm = z.infer<typeof loginZod>;

@@ -1,6 +1,5 @@
 import type { AxiosRequestConfig } from "axios";
 import { assign, tokenManager, uuid } from "@/tools";
-import { getBearerToken } from "@/tools/token-manager";
 
 // 给请求添加请求ID,放到 query 参数中
 export const REQUEST_ID_KEY = "request_id";
@@ -29,7 +28,7 @@ export function withToken(config: AxiosRequestConfig) {
 export function withBearerToken(config: AxiosRequestConfig) {
   if (tokenManager.hasAccessToken()) {
     const tokenHeader = {
-      [TOKEN_HEADER_KEY]: getBearerToken(),
+      [TOKEN_HEADER_KEY]: tokenManager.getBearerToken(),
     };
     config.headers = assign({}, config.headers, tokenHeader);
   }

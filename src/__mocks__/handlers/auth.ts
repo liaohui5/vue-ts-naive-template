@@ -1,13 +1,14 @@
-import { HttpResponse, http } from "msw";
+import { http } from "msw";
 import { useMockApi } from "@/tools";
-import { mockLoginResponse, mockRefreshAccessToken } from "@/__mocks__/mocks";
+import { success, mockLoginResponse, mockRefreshTokenResponse } from "@/__mocks__/mocks";
 
-export const loginHandler = http.post(useMockApi("/api/auth/login"), () => {
+// 模拟登录接口的响应
+export const login = http.post(useMockApi("/api/auth/login"), () => {
   const mockData = mockLoginResponse.generate();
   mockData.avatar = "https://avatars.githubusercontent.com/u/29266093";
-  return HttpResponse.json(mockData);
+  return success(mockData);
 
-  // 虽然使用验证规则可以很方便的模拟数据, 但是每次数据都
+  // 虽然使用 zod 规则可以很方便的模拟数据, 但是每次数据都
   // 不一样如果需要一个固定的数据, 请使用手动模拟的方式
   // return HttpResponse.json({
   //   id: 1,
@@ -19,7 +20,8 @@ export const loginHandler = http.post(useMockApi("/api/auth/login"), () => {
   // });
 });
 
+// 模拟刷新 accessToken 接口的响应
 export const refreshAccessToken = http.post(useMockApi("/api/auth/refresh_access_token"), () => {
-  const mockData = mockRefreshAccessToken.generate();
-  return HttpResponse.json(mockData);
+  const mockData = mockRefreshTokenResponse.generate();
+  return success(mockData);
 });

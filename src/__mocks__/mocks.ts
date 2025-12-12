@@ -1,8 +1,24 @@
 import * as z from "zod";
 import { zocker } from "zocker";
+import { HttpResponse } from "msw";
 
-// 仅模拟登录接口数据用的 schema
-// 可以直接根据验证规则来生成符合规则的数据
+export function success(data: unknown) {
+  return HttpResponse.json({
+    code: 0,
+    data,
+    msg: "success",
+  });
+}
+
+export function failed(data: unknown) {
+  return HttpResponse.json({
+    code: 1,
+    data,
+    msg: "failed",
+  });
+}
+
+// 使用 zod 定义数据结构来模拟接口的响应数据
 const loginResponseZod = z.object({
   id: z.number(),
   username: z.string(),
@@ -14,11 +30,26 @@ const loginResponseZod = z.object({
 
 // 导出模拟数据: mockLoginResponse.generate()
 export const mockLoginResponse = zocker(loginResponseZod);
-export type LoginResponseType = z.infer<typeof loginResponseZod>;
+export type ILoginResponse = z.infer<typeof loginResponseZod>;
 
 // 刷新 accessToken 接口数据用的 schema
-const refreshAccessTokenZod = z.object({
-  refreshToken: z.uuidv4(),
+const refreshAccessTokenResponseZod = z.object({
+  accessToken: z.uuidv4(),
 });
-export const mockRefreshAccessToken = zocker(refreshAccessTokenZod);
-export type RefreshAccessTokenType = z.infer<typeof refreshAccessTokenZod>;
+export const mockRefreshTokenResponse = zocker(refreshAccessTokenResponseZod);
+export type IRefreshTokenResponse = z.infer<typeof refreshAccessTokenResponseZod>;
+
+// 模拟文章列表接口
+const articleListResponseZod = z.array(
+  z.object({
+    id: z.number(),
+    author: z.string(),
+    author_id: z.string(),
+    title: z.string(),
+    content: z.string().min(32),
+    createdAt: z.date(),
+    updatedAt: z.date(),
+  })
+);
+export const mockArticleListResponse = zocker(articleListResponseZod);
+export type IArticleListResponse = z.infer<typeof articleListResponseZod>;

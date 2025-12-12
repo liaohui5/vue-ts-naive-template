@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { initMockHttp } from "@/__tests__/helpers";
-import { genRequestId, REQUEST_ID_KEY, TOKEN_HEADER_KEY, withToken, withBearerToken } from "@/tools/http";
+import { genRequestId, REQUEST_ID_KEY, TOKEN_HEADER_KEY, withToken, withBearerToken } from "@/tools/http-axios";
 import { removeAccessToken, saveAccessToken } from "@/tools/token-manager";
 
 describe("请求拦截器", () => {

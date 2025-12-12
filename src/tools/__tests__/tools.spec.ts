@@ -41,5 +41,22 @@ describe("tools", () => {
       expect(newData.account).toBe("foo");
       expect(newData.password).toBe("e10adc3949ba59abbe56e057f20f883e");
     });
+
+    it("如果没有 password 字段, 应该直接返回原对象", () => {
+      const original = {
+        account: "foo",
+      };
+      const newData = encodePassword(original);
+      expect(original).toBe(newData);
+    });
+
+    it("password 字段不是 string 类型, 应该直接返回原对象", () => {
+      const original = {
+        account: "foo",
+        password: 123,
+      };
+      const newData = encodePassword(original);
+      expect(original).toBe(newData);
+    });
   });
 });

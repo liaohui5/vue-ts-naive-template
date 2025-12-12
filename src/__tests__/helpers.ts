@@ -14,7 +14,7 @@ import {
   type ErrorInterceptor,
   type RequestInterceptor,
   type ResponseInterceptor,
-} from "@/tools/http";
+} from "@/tools/http-axios";
 
 /**
  * 设置路由模拟器(RouterMock 是专门用于测试 vue-router 的库)

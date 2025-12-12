@@ -1,5 +1,5 @@
 <template>
-  <n-config-provider v-bind="store.configProviderProps" :themeOverrides="themeOverrides">
+  <n-config-provider v-bind="store.configProviderProps">
     <template v-if="withoutLayout">
       <router-view />
     </template>
@@ -13,19 +13,11 @@
 </template>
 
 <script setup lang="ts">
-import { NGlobalStyle, useThemeVars } from "naive-ui";
-import { computed, ref } from "vue";
+import { NGlobalStyle } from "naive-ui";
+import { computed } from "vue";
 import { useRoute } from "vue-router";
 import { useTheme } from "@/store/theme";
 import Layout from "@/Layout.vue";
-
-const themeOverrides = ref({
-  common: {
-    primaryColor: "#2d8cf0",
-  },
-});
-
-console.log(useThemeVars());
 
 const store = useTheme();
 const route = useRoute();

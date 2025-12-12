@@ -6,12 +6,12 @@ import {
   validationErrorHandler,
   internalErrorHandler,
   internalErrorMessage,
-} from "@/tools/http/interceptors/error-handler";
+} from "@/tools/http-axios/interceptors/error-handler";
 import { removeAccessToken, saveRefreshToken, removeRefreshToken } from "@/tools/token-manager";
-import * as httpModule from "@/tools/http";
+import * as httpModule from "@/tools/http-axios";
 import * as notifyModule from "@/tools/notify";
 
-vi.mock("@/tools/http/interceptors/error-handler", {
+vi.mock("@/tools/http-axios/interceptors/error-handler", {
   spy: true,
 });
 

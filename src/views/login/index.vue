@@ -20,7 +20,7 @@
 
         <div class="flex justify-evenly">
           <n-button @click="resetForm()" type="error">重 置</n-button>
-          <n-button @click="submitHandler" type="primary">登 录</n-button>
+          <n-button @click="submitForm" type="primary" :disabled="store.isLoading">登 录</n-button>
         </div>
       </n-card>
     </div>
@@ -30,17 +30,14 @@
 <script setup lang="ts">
 import { useForm } from "vee-validate";
 import { useAuth } from "@/store";
-import { loginZod, type LoginFormType } from "@/validation";
+import { loginZod, type ILoginForm } from "@/validation";
 import type { FormItemProps } from "naive-ui";
 
 const store = useAuth();
 
-const { defineField, handleSubmit, resetForm } = useForm<LoginFormType>({
+const { defineField, handleSubmit, resetForm } = useForm<ILoginForm>({
   validationSchema: loginZod,
   initialValues: {
-    //// set some initial values for test
-    // account: "root@qq.com",
-    // password: "123456",
     account: "",
     password: "",
   },
@@ -64,5 +61,5 @@ const [password, passwordProp] = defineField("password", (state: any) => ({
 }));
 
 // validate first
-const submitHandler = handleSubmit(store.login);
+const submitForm = handleSubmit(store.login);
 </script>
