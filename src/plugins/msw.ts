@@ -1,8 +1,8 @@
 import { startMockWorker } from "@/__mocks__/browser";
 import { env } from "@/tools";
 
-export function setupMSW() {
+export async function setupMSW() {
   if (env.VITE_APP_MOCK_API_ENABLED) {
-    startMockWorker();
+    await startMockWorker();
   }
 }

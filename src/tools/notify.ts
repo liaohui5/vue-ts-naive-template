@@ -1,9 +1,7 @@
-// import { ElMessage } from "element-plus";
-
 export function showMsg(message: string) {
-  // ElMessage.info(message);
+  window.$message.info(message);
 }
 
 export function showErrMsg(message: string) {
-  // ElMessage.error(message);
+  window.$message.error(message);
 }

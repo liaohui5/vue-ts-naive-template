@@ -11,3 +11,5 @@ export function setupStore(app: App) {
 
 export * from "pinia";
 export * from "@/store/auth";
+export * from "@/store/theme";
+export * from "@/store/article";

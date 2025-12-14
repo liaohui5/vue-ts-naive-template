@@ -8,14 +8,10 @@ import App from "./App.vue";
 import "./style.css";
 
 async function bootstrap() {
-  setupMSW();
-
+  await setupMSW();
   const app = createApp(App);
-
   setupStore(app);
-
   setupNaiveUI();
-
   await setupRouter(app);
   app.mount("#app");
 }

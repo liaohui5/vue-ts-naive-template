@@ -1,6 +1,6 @@
 <template>
   <header class="w-full h-[50px] items-center flex py-2 px-4">
-    <div class="logo">
+    <div class="hover:cursor-pointer" @click="$goto.gotoHome">
       <img src="/vite.svg" />
     </div>
 
@@ -27,6 +27,7 @@
 import ThemeSwitcher from "./theme-switcher.vue";
 import { storeToRefs } from "pinia";
 import { useAuth } from "@/store";
+import { $goto } from "@/hooks/useGoto";
 
 const store = useAuth();
 const { authUser } = storeToRefs(store);

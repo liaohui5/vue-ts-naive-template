@@ -12,8 +12,10 @@ export function useGoto() {
 
   const redirectToLogin = () => redirect(RouteNames.Login);
   const redirectToHome = () => redirect(RouteNames.Home);
+  const gotoHome = () => gotoPage(RouteNames.Home);
 
   return {
+    gotoHome,
     redirect,
     gotoPage,
     redirectToLogin,

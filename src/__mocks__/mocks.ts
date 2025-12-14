@@ -2,6 +2,9 @@ import * as z from "zod";
 import { zocker } from "zocker";
 import { HttpResponse } from "msw";
 
+// mws: https://msw.nodejs.cn/docs/getting-started/
+// zocker: https://github.com/LorisSigrist/zocker
+
 export function success(data: unknown) {
   return HttpResponse.json({
     code: 0,
@@ -40,16 +43,14 @@ export const mockRefreshTokenResponse = zocker(refreshAccessTokenResponseZod);
 export type IRefreshTokenResponse = z.infer<typeof refreshAccessTokenResponseZod>;
 
 // 模拟文章列表接口
-const articleListResponseZod = z.array(
-  z.object({
-    id: z.number(),
-    author: z.string(),
-    author_id: z.string(),
-    title: z.string(),
-    content: z.string().min(32),
-    createdAt: z.date(),
-    updatedAt: z.date(),
-  })
-);
-export const mockArticleListResponse = zocker(articleListResponseZod);
-export type IArticleListResponse = z.infer<typeof articleListResponseZod>;
+export const articleZod = z.object({
+  id: z.number().positive().int(),
+  author: z.string(),
+  author_id: z.string(),
+  title: z.string(),
+  content: z.string().min(32),
+  createdAt: z.date(),
+  updatedAt: z.date(),
+});
+export const mockArticleListResponse = zocker(z.array(articleZod));
+export type IArticleItem = z.infer<typeof articleZod>;

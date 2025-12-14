@@ -4,7 +4,10 @@ import { mockArticleListResponse, success } from "@/__mocks__/mocks";
 
 // 文章列表
 export const listArticles = http.get(useMockApi("/api/articles"), () => {
-  return success(mockArticleListResponse.generate());
+  return success({
+    total: 50,
+    datas: mockArticleListResponse.array({ min: 10, max: 10 }).generate(),
+  });
 });
 
 // 创建文章
