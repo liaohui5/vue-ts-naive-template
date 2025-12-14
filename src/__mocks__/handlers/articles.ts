@@ -14,7 +14,7 @@ export const listArticles = http.get(useMockApi("/api/articles"), () => {
 export const createArticle = http.post(useMockApi("/api/articles"), () => success({ id: 1 }));
 
 // 更新文章
-export const updateArticle = http.post(useMockApi("/api/articles/:id"), ({ params }) => {
+export const updateArticle = http.patch(useMockApi("/api/articles/:id"), ({ params }) => {
   const { id } = params;
   return success({ id });
 });

@@ -11,6 +11,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    '(feat': curd table and store)
     CurdTable: typeof import('./src/components/curd-table/index.vue')['default']
     NAvatar: typeof import('naive-ui')['NAvatar']
     NavBar: typeof import('./src/components/nav-bar/index.vue')['default']
@@ -26,6 +27,7 @@ declare module 'vue' {
     NLayout: typeof import('naive-ui')['NLayout']
     NLayoutContent: typeof import('naive-ui')['NLayoutContent']
     NLayoutHeader: typeof import('naive-ui')['NLayoutHeader']
+    NModal: typeof import('naive-ui')['NModal']
     NPagination: typeof import('naive-ui')['NPagination']
     NSwitch: typeof import('naive-ui')['NSwitch']
     NTable: typeof import('naive-ui')['NTable']

@@ -45,8 +45,8 @@ export type IRefreshTokenResponse = z.infer<typeof refreshAccessTokenResponseZod
 // 模拟文章列表接口
 export const articleZod = z.object({
   id: z.number().positive().int(),
-  author: z.string(),
-  author_id: z.string(),
+  author: z.string().max(12),
+  author_id: z.number().positive().int(),
   title: z.string(),
   content: z.string().min(32),
   createdAt: z.date(),
