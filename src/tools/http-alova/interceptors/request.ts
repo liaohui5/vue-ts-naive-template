@@ -8,7 +8,7 @@ export function genRequestId({ config }: Method) {
   const reqIdParams = {
     [REQUEST_ID_KEY]: uuid(),
   };
-  config.params = assign({}, reqIdParams, config.params);
+  config.params = assign({}, config.params, reqIdParams);
 }
 
 // 自动携带 token
@@ -20,7 +20,7 @@ export function withToken({ config }: Method) {
   const headerWithToken = {
     [TOKEN_HEADER_KEY]: getAccessToken(),
   };
-  config.headers = assign({}, headerWithToken, config.headers);
+  config.headers = assign({}, config.headers, headerWithToken);
 }
 
 // 自动携带 bearer token
@@ -31,5 +31,5 @@ export function withBearerToken({ config }: Method) {
   const headerWithToken = {
     [TOKEN_HEADER_KEY]: getBearerToken(),
   };
-  config.headers = assign({}, headerWithToken, config.headers);
+  config.headers = assign({}, config.headers, headerWithToken);
 }

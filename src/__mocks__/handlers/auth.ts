@@ -1,4 +1,4 @@
-import { http } from "msw";
+import { http, HttpResponse } from "msw";
 import { useMockApi } from "@/tools";
 import { success, mockLoginResponse, mockRefreshTokenResponse } from "@/__mocks__/mocks";
 
@@ -21,7 +21,14 @@ export const login = http.post(useMockApi("/api/auth/login"), () => {
 });
 
 // 模拟刷新 accessToken 接口的响应
-export const refreshAccessToken = http.post(useMockApi("/api/auth/refresh_access_token"), () => {
+export const refreshAccessToken = http.post(useMockApi("/api/auth/refresh_access_token"), async ({ request }) => {
+  const body = await request.clone().json();
+  if (body.expired === 1) {
+    // 如果携带了 expired 则模拟 refreshToken 也已经过期
+    return HttpResponse.json({ error: "refresh token expired" }, { status: 401 });
+  }
+
+  // 刷新 accessToken
   const mockData = mockRefreshTokenResponse.generate();
   return success(mockData);
 });

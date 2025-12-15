@@ -139,7 +139,7 @@ describe("auth store", () => {
     const store = useAuth();
 
     // logout
-    store.logout();
+    await store.logout();
     await routerMock.getPendingNavigation(); // 等待当前正在进行的导航完成
     expect(routerMock.currentRoute.value.name).toBe(RouteNames.Login);
   });

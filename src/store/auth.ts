@@ -45,9 +45,10 @@ export const useAuth = defineStore("auth", () => {
   }
 
   async function logout() {
+    showErrMsg("请先登录");
     tokenManager.removeTokens();
     setAuthUser({} as ILoginResponse);
-    $goto.redirectToLogin();
+    return $goto.redirectToLogin();
   }
 
   return {
@@ -59,3 +60,6 @@ export const useAuth = defineStore("auth", () => {
     login,
   };
 });
+
+// use logout outside of setup script
+export const logout = () => useAuth().logout();

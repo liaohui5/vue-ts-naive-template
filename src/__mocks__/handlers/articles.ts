@@ -1,4 +1,4 @@
-import { http } from "msw";
+import { http, HttpResponse } from "msw";
 import { useMockApi } from "@/tools";
 import { mockArticleListResponse, success } from "@/__mocks__/mocks";
 
@@ -21,6 +21,12 @@ export const updateArticle = http.patch(useMockApi("/api/articles/:id"), ({ para
 
 // 删除文章
 export const deleteArticle = http.delete(useMockApi("/api/articles/:id"), ({ params }) => {
+  const r = Math.random();
+  if (r >= 0.5) {
+    // 有一半的几率会模拟 accessToken 过期(目的是为了测试客户端是否会重试失败的请求)
+    return HttpResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   const { id } = params;
   return success({ id });
 });
