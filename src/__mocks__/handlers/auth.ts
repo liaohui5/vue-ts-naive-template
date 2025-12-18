@@ -1,5 +1,5 @@
 import { http, HttpResponse } from "msw";
-import { success, mockLoginResponse, mockRefreshTokenResponse } from "../mocks";
+import { success, mockLoginResponse, mockRefreshTokenResponse } from "@/__mocks__/mocks";
 
 // 模拟登录接口的响应
 export const login = http.post("/api/login", () => {
@@ -21,9 +21,10 @@ export const login = http.post("/api/login", () => {
 
 // 模拟刷新 accessToken 接口的响应
 export const refreshAccessToken = http.get("/api/refresh_access_token", async ({ request }) => {
-  const body = await request.clone().json();
-  if (body.expired === 1) {
-    // 如果携带了 expired 则模拟 refreshToken 也已经过期
+  const url = new URL(request.url);
+  const params = url.searchParams;
+  if (params.get("expired")?.toString() === "1") {
+    // 如果携带了 expired 参数则模拟 refreshToken 也已经过期的情况
     return HttpResponse.json({ error: "refresh token expired" }, { status: 401 });
   }
 
