@@ -41,10 +41,6 @@ function createColumns() {
       key: "author",
     },
     {
-      title: "作者ID",
-      key: "author_id",
-    },
-    {
       title: "文章内容",
       key: "content",
     },

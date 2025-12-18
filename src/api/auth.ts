@@ -17,11 +17,11 @@ export const login = (data: ILoginForm) => {
 export async function refreshAccessToken() {
   const refreshToken = tokenManager.getRefreshToken();
   const alovaMethod = http.Get<IRefreshTokenResponse>("/api/refresh_access_token", {
+    cacheFor: null, // 不允许缓存
     params: {
       refreshToken,
-      expired: "1", // MSW: 模拟 refreshToken 过期
+      // expired: "1", // MSW: 模拟 refreshToken 过期
     },
-    cacheFor: null, // 不允许缓存
   });
 
   // 将请求标记为 刷新访问令牌的请求

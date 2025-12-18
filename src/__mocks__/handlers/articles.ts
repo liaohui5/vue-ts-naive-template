@@ -9,8 +9,7 @@ export const fetchArticles = http.get("/api/articles", () => {
     z.array(
       z.object({
         id: z.number().positive().int(),
-        author: z.string().max(12),
-        author_id: z.number().positive().int(),
+        author: z.string().regex(/^[a-zA-Z0-9]{4,16}$/),
         title: z.string(),
         content: z.string().min(32),
         createdAt: z.date(),
