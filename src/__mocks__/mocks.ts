@@ -4,24 +4,23 @@ import { HttpResponse } from "msw";
 
 // mws: https://msw.nodejs.cn/docs/getting-started/
 // zocker: https://github.com/LorisSigrist/zocker
-
 export function success(data: unknown) {
   return HttpResponse.json({
-    code: 0,
-    data,
+    success: true,
     msg: "success",
+    data,
   });
 }
 
 export function failed(data: unknown) {
   return HttpResponse.json({
-    code: 1,
-    data,
+    success: false,
     msg: "failed",
+    data,
   });
 }
 
-// 使用 zod 定义数据结构来模拟接口的响应数据
+// 模拟登录接口响应
 const loginResponseZod = z.object({
   id: z.number(),
   username: z.string(),
@@ -35,14 +34,14 @@ const loginResponseZod = z.object({
 export const mockLoginResponse = zocker(loginResponseZod);
 export type ILoginResponse = z.infer<typeof loginResponseZod>;
 
-// 刷新 accessToken 接口数据用的 schema
+// 模拟刷新 accessToken 接口响应
 const refreshAccessTokenResponseZod = z.object({
   accessToken: z.uuidv4(),
 });
 export const mockRefreshTokenResponse = zocker(refreshAccessTokenResponseZod);
 export type IRefreshTokenResponse = z.infer<typeof refreshAccessTokenResponseZod>;
 
-// 模拟文章列表接口
+// 文章实体
 export const articleZod = z.object({
   id: z.number().positive().int(),
   author: z.string().max(12),

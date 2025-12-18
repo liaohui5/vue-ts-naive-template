@@ -41,7 +41,7 @@ const { onAuthRequired, onResponseRefreshToken } = createServerTokenAuthenticati
 
 function createHttp() {
   return createAlova({
-    baseURL: env.BASE_URL,
+    baseURL: env.VITE_APP_API_BASE_URL,
     statesHook: vueHook,
     requestAdapter: adapterFetch(),
     beforeRequest: onAuthRequired((alovaInst) => {
@@ -54,14 +54,15 @@ function createHttp() {
           throw new Error(response.statusText);
         }
 
-        // res.data.code === 0
+        // 具体判断是否成功, 需要和服务端约定好响应格式
+        // res.data.success
         const body = await response.json();
-        if (body.code !== 0) {
-          throw new Error(body.message);
+        if (body.success) {
+          // unwrap data -> res.data.data
+          return unwrapData(body.data);
         }
 
-        // unwrap data -> res.data.data
-        return unwrapData(body.data);
+        throw new Error(body.message);
       },
 
       onError(error, alovaInst) {

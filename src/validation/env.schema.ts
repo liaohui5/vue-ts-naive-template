@@ -8,18 +8,9 @@ export const envZod = z.object({
   SSR: z.boolean(),
   BASE_URL: z.string(),
 
-  // 借口请求地址
+  // 接口请求地址
   VITE_APP_API_BASE_URL: z.string().default("/"),
 
-  // 是否开启 mock 数据
-  VITE_APP_MOCK_API_ENABLED: z
-    .enum(["true", "false"])
-    .default("false")
-    .transform((v) => JSON.parse(v)),
-
-  // 是否允许验证响应参数
-  VITE_APP_API_VLIDATION_ENABLED: z
-    .enum(["true", "false"])
-    .default("false")
-    .transform((v) => JSON.parse(v)),
+  // 是否启用 mock service worker
+  VITE_APP_USE_MSW: z.enum(["false", "true"]).refine((v) => JSON.parse(v)),
 });
