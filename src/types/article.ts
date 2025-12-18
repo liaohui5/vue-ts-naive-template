@@ -1,4 +1,11 @@
-export type { IArticleItem } from "@/__mocks__/mocks";
-
-// TODO: import from zod rule
 export type { ICreateArticleForm, IUpdateArticleForm } from "@/views/home/rules";
+
+export interface IArticleItem {
+  id: number;
+  author: string;
+  author_id: number;
+  title: string;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+}
