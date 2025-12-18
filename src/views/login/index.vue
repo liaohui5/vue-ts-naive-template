@@ -14,7 +14,7 @@
           </n-form-item>
 
           <n-form-item v-bind="passwordProp">
-            <n-input v-model:value="password" type="password" placeholder="密码" />
+            <n-input v-model:value="password" type="password" placeholder="密码" @keyup.enter="submitForm" />
           </n-form-item>
         </n-form>
 
