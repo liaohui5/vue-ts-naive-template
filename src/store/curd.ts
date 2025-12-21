@@ -11,7 +11,7 @@ export const plaseImplementFirst = () => Promise.reject("Please implement first"
 // 操作数据的 CURD 接口
 export type AlovaMethod = Method<RespondedAlovaGenerics<AlovaGenerics, any, any>>;
 export interface ICurdService {
-  listApi: (pagination: IPagination, search: ISearchParams) => AlovaMethod;
+  listApi: (pagination: IPagination, search: string) => AlovaMethod;
   deleteApi?: (id: string | number) => AlovaMethod;
   updateApi?: (id: string | number, data: any) => AlovaMethod;
   createApi?: (data: any) => AlovaMethod;
@@ -64,14 +64,17 @@ export class CurdStore<T = unknown> {
   search: UsePaginationExposure<AlovaGenerics, T[], any>["refresh"];
   searchQuery = ref<ISearchParams>([]);
   hasSearchQuery = computed(() => this.searchQuery.value.length > 0);
-  _submitSearchQuery = computed<ISearchParams>(() => {
-    return this.searchQuery.value.map((item) => {
-      return {
-        field: item.field,
-        value: item.value,
-        // remove label field
-      };
-    });
+  _submitSearchQuery = computed<string>(() => {
+    // 最终发送到服务端的参数字符串 [{"field": "xxx", value: "xxx"}]
+    const searchQuiers = this.searchQuery.value
+      .filter((item) => Boolean(item.value))
+      .map((item) => {
+        return {
+          field: item.field,
+          value: item.value,
+        };
+      });
+    return JSON.stringify(searchQuiers);
   });
   setSearchQuery = (search: ISearchParams) => {
     this.searchQuery.value = search;

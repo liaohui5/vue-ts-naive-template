@@ -1,8 +1,8 @@
 import { http } from "@/tools/http-alova";
-import type { IPagination, ISearchParams, PaginationData } from "@/types/api";
+import type { IPagination, PaginationData } from "@/types/api";
 import type { IArticleItem, ICreateArticleForm, IUpdateArticleForm } from "@/types/article";
 
-export function fetchArticles(pagination: IPagination, search: ISearchParams) {
+export function fetchArticles(pagination: IPagination, search: string) {
   return http.Get<PaginationData<IArticleItem>>("/api/articles", {
     params: {
       ...pagination,
