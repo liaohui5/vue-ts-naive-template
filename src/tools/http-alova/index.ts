@@ -2,7 +2,7 @@ import adapterFetch from "alova/fetch";
 import vueHook from "alova/vue";
 import { createAlova } from "alova";
 import { createServerTokenAuthentication } from "alova/client";
-import { genRequestId, withToken } from "./interceptors/request";
+import { genRequestId, withBearerToken } from "./interceptors/request";
 import { unwrapData } from "./interceptors/response";
 import { env, tokenManager } from "@/tools";
 import { refreshAccessToken } from "@/api/auth";
@@ -35,12 +35,13 @@ const { onAuthRequired, onResponseRefreshToken } = createServerTokenAuthenticati
   assignToken: (alovaInst) => {
     // 自动过滤掉: "登录请求" 和 "访客请求", 如: method.meta = { authRole: null }
     // 然后自动在其他需要加上 accessToken 的请求发送前执行这个方法
-    withToken(alovaInst);
+    withBearerToken(alovaInst);
   },
 });
 
 function createHttp() {
   return createAlova({
+    // cacheFor: env.DEV ? null : 5000,
     baseURL: env.VITE_APP_API_BASE_URL,
     statesHook: vueHook,
     requestAdapter: adapterFetch(),
@@ -66,7 +67,7 @@ function createHttp() {
       },
 
       onError(error, alovaInst) {
-        console.log("[请求出错了]", error, alovaInst);
+        console.log("[请求出错了]", error.message, alovaInst);
       },
     }),
   });
