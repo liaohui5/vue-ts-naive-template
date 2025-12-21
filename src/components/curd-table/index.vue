@@ -16,7 +16,7 @@
         </template>
         <n-form-item class="!m-0">
           <n-button class="!mr-2" type="error" secondary @click="props.store.resetSearchQuery">重置</n-button>
-          <n-button type="primary" secondary @click="props.store.search">搜索</n-button>
+          <n-button type="primary" secondary @click="props.store.search()">搜索</n-button>
         </n-form-item>
       </n-form>
     </template>
@@ -29,7 +29,7 @@
         </n-dropdown>
       </div>
       <div>
-        <n-button size="small" @click="props.store.refresh" class="!mr-2">
+        <n-button size="small" @click="props.store.refresh()" class="!mr-2">
           <Icon icon="icon-park-outline:refresh" />
         </n-button>
         <n-button size="small" @click="maximize" :type="isMaximized ? 'primary' : 'default'" class="!mr-2">
@@ -153,6 +153,7 @@ const searchQuery = computed(() => props.store.searchQuery as unknown as Require
 const { maximize, isMaximized } = useMaximize();
 const { isFullscreen, toggle: toggleFullscreen } = useFullscreen();
 const exportOptions = computed(() => {
+  /*@ts-ignore */
   return props.store.supportedFormats.map((item) => ({
     label: `导出 ${item}`,
     key: item,
