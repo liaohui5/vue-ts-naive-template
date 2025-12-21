@@ -30,8 +30,8 @@ export const useAuth = defineStore("auth", () => {
     .onSuccess(({ data }) => {
       log("[authStore@login]登录接口响应", data);
       setAuthUser(data);
-      tokenManager.saveAccessToken(authUser.value.accessToken);
-      tokenManager.saveRefreshToken(authUser.value.refreshToken);
+      tokenManager.saveAccessToken(data.accessToken);
+      tokenManager.saveRefreshToken(data.refreshToken);
       $goto.redirectToHome();
     })
     .onError((alovaInst) => {
