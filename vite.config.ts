@@ -11,6 +11,8 @@ export default defineConfig({
   plugins: [
     vue(),
     tailwindcss(),
+
+    // 自动导入 naive-ui 组件
     AutoImport({
       imports: [
         "vue",
@@ -25,21 +27,26 @@ export default defineConfig({
   ],
 
   test: {
+    // 测试相关配置: https://vitest.dev/
     globals: true,
     environment: "happy-dom",
     setupFiles: ["./src/__tests__/setupMSW.ts"],
   },
 
   resolve: {
+    // 路径别名配置
     alias: {
       "@": "/src/",
     },
   },
+
   build: {
+    // 打包相关配置: https://cn.vite.dev/config/build-options
     target: "es2020",
     cssTarget: "chrome80",
     reportCompressedSize: false,
     chunkSizeWarningLimit: 1024,
+
     // 打包的时的分包策略
     rollupOptions: {
       output: {

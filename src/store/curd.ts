@@ -25,15 +25,17 @@ export interface ICurdService {
 export class CurdStore<T = unknown> {
   service: ICurdService;
 
-  // loading
+  // 请求状态
   isFetching = ref<boolean>(false);
   isCreating = ref<boolean>(false);
   isUpdating = ref<boolean>(false);
   isDeleting = ref<boolean>(false);
 
-  // list with pagination params
+  // 数据列表
   items: Ref<Array<T>>;
   count: Ref<number>;
+
+  // 发送给服务端的分页参数(如: ?page=1&limit=10)
   page = ref<number>(1);
   setPage = (page: number) => {
     this.page.value = page;
@@ -44,15 +46,15 @@ export class CurdStore<T = unknown> {
   };
   pageSizeOptions = ref([10, 15, 20, 30, 40, 50]);
   pagination = computed<IPagination>(() => ({
-    // 发送给服务端的分页参数(如: ?page=1&limit=10)
     page: this.page.value,
     limit: this.pageSize.value,
   }));
 
   // listAction: UsePaginationExposure<AlovaGenerics, T[], any>;
   list: UseHookExposure["send"];
+
+  // 服务端响应的字段映射(如: { total: 100, rows: [...] })
   paginationFields = ref<IPaginationFields>({
-    // 服务端响应的字段映射(如: { total: 100, rows: [...] })
     itemsKey: "items",
     countKey: "count",
   });
@@ -60,7 +62,7 @@ export class CurdStore<T = unknown> {
     this.paginationFields.value = fields;
   };
 
-  // search
+  // 搜索参数: 需要服务端支持
   search: UsePaginationExposure<AlovaGenerics, T[], any>["refresh"];
   searchQuery = ref<ISearchParams>([]);
   hasSearchQuery = computed(() => this.searchQuery.value.length > 0);
@@ -87,7 +89,7 @@ export class CurdStore<T = unknown> {
   };
   refresh: UsePaginationExposure<AlovaGenerics, T[], any>["refresh"];
 
-  // create data
+  // 创建数据
   createFormVisible = ref<boolean>(false);
   showCreateForm = () => {
     this.createFormVisible.value = true;
@@ -97,7 +99,7 @@ export class CurdStore<T = unknown> {
   };
   sendCreateRequest: (data: any) => Promise<void> = plaseImplementFirst;
 
-  // delete data
+  // 删除数据
   primaryKey = ref<keyof T>("id" as any);
   setPrimaryKey = (field: string) => {
     this.primaryKey.value = field;
@@ -112,7 +114,7 @@ export class CurdStore<T = unknown> {
   };
   sendDeleteRequest: (row: T) => Promise<void> = plaseImplementFirst;
 
-  // update data
+  // 更新数据
   currentRow = ref<T>({} as T);
   updateFormVisible = ref<boolean>(false);
   setCurrentRow = (row: T) => {
@@ -128,26 +130,27 @@ export class CurdStore<T = unknown> {
   };
   sendUpdateRequest: (patchData: Partial<T>) => Promise<void> = plaseImplementFirst;
 
+  /**
+   * 导出数据
+   */
   supportedFormats = computed<Array<"csv" | "json" | "xlsx">>(() => ["csv", "json", "xlsx"]);
   handleExport = (format: "csv" | "json" | "xlsx") => {
-    alert(`TODO:${format}`);
+    // TODO: 实现导出功能
+    notify.showMsg("导出功能尚未实现");
   };
 
-  // TODO: 导出
   constructor(service: ICurdService) {
-    // list
     this.service = service;
     const listAction = usePagination(() => service.listApi(this.pagination.value, this._submitSearchQuery.value), {
       total: (res) => res[this.paginationFields.value.countKey],
       data: (res) => res[this.paginationFields.value.itemsKey],
       initialData: {
-        // 默认数据
+        // 未发送请求前的默认数据
         count: 0,
         rows: [],
       },
       immediate: false,
     });
-    // this.listAction = listAction;
     this.isFetching = listAction.loading;
     this.list = listAction.send;
     this.refresh = listAction.refresh;
@@ -166,6 +169,11 @@ export class CurdStore<T = unknown> {
     this._initUpdateAction();
   }
 
+  /**
+   * 初始化创建数据的相关逻辑
+   *  - 监听成功后, 隐藏创建表单, 显示成功信息, 并刷新数据
+   *  - 监听失败后, 显示错误信息
+   */
   private _initCreateAction() {
     if (!this.service.createApi) {
       return;
@@ -187,6 +195,11 @@ export class CurdStore<T = unknown> {
     this.sendCreateRequest = createAction.send;
   }
 
+  /**
+   * 初始化删除数据的相关逻辑
+   *  - 监听成功后, 刷新数据
+   *  - 监听失败后, 显示错误信息
+   */
   private _initDeleteAction() {
     if (!this.service.deleteApi) {
       return;
@@ -204,6 +217,13 @@ export class CurdStore<T = unknown> {
         notify.showErrMsg(`数据删除失败: ${alovaInst.error.message}`);
       });
     this.isDeleting = deleteAction.loading;
+
+    /**
+     * 删除数据
+     * @param row - 需要删除的数据
+     * @returns Promise<void>
+     * @throws {Error} 如果主键字段获取失败, 请检查传入的数据是否有误
+     */
     this.sendDeleteRequest = async (row: T) => {
       const pk = this.getPrimaryKey(row);
       if (!pk) {
@@ -214,6 +234,12 @@ export class CurdStore<T = unknown> {
     };
   }
 
+  /**
+   * 初始化更新数据的操作
+   *  - 监听成功后, 刷新数据
+   *  - 监听失败后, 显示错误信息
+   *  - 监听完成后, 隐藏编辑表单
+   */
   private _initUpdateAction() {
     if (!this.service.updateApi) {
       return;
@@ -235,6 +261,15 @@ export class CurdStore<T = unknown> {
         this.hideUpdateForm();
       });
     this.isUpdating = updateAction.loading;
+
+    /**
+     * 发送更新请求
+     * @param patchData 需要更新的数据, 是一个 Partial<T> 类型
+     * @returns Promise<void>
+     * @remarks
+     * 请先设置 currentRow, 否则无法自动获取主键字段
+     * 主键字段获取失败, 请检查传入的数据是否有误
+     */
     this.sendUpdateRequest = async (patchData: Partial<T>) => {
       if (!this.currentRow) {
         log("[CurdStore@update]请先设置 currentRow, 否则无法自动获取主键字段");

@@ -1,5 +1,6 @@
 import * as z from "zod";
 
+// 环境变量的验证规则, 在 import.meta.env 中的变量
 export const envZod = z.object({
   // vite 在打包的时候会自动注入
   MODE: z.string(),

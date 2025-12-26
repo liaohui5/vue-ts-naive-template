@@ -21,16 +21,6 @@ export function log(...args: Array<unknown>) {
 }
 
 /**
- * 仅在开发环境下输出日志信息
- * @param {...*} args - 要打印的参数列表
- */
-export function errorLog(...args: Array<unknown>) {
-  if (env.DEV) {
-    console.error(...args);
-  }
-}
-
-/**
  * 检查一个字符串是否是 URL
  * @param {string} url - 要检查的字符串
  */

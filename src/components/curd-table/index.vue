@@ -1,5 +1,5 @@
 <template>
-  <div ref="targetRef">
+  <div ref="targetMaximizeRef">
     <template v-if="props.store.hasSearchQuery">
       <n-form
         inline
@@ -32,7 +32,7 @@
         <n-button size="small" @click="props.store.refresh()" class="!mr-2">
           <Icon icon="icon-park-outline:refresh" />
         </n-button>
-        <n-button size="small" @click="maximize" :type="isMaximized ? 'primary' : 'default'" class="!mr-2">
+        <n-button size="small" @click="toggleMaximize" :type="isMaximized ? 'primary' : 'default'" class="!mr-2">
           <Icon icon="icon-park-outline:full-screen-one" />
         </n-button>
         <n-button size="small" @click="toggleFullscreen" :type="isFullscreen ? 'primary' : 'default'">
@@ -150,7 +150,7 @@ const paginationProps = computed(() => {
 const searchQuery = computed(() => props.store.searchQuery as unknown as Required<ISearchParams>);
 
 // tool bar
-const { maximize, isMaximized } = useMaximize();
+const { toggle: toggleMaximize, isMaximized } = useMaximize();
 const { isFullscreen, toggle: toggleFullscreen } = useFullscreen();
 const exportOptions = computed(() => {
   /*@ts-ignore */

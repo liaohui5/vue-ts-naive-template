@@ -41,7 +41,7 @@ const { onAuthRequired, onResponseRefreshToken } = createServerTokenAuthenticati
 
 function createHttp() {
   return createAlova({
-    // cacheFor: env.DEV ? null : 5000,
+    // cacheFor: env.DEV ? null : 5000, // 设置缓存
     baseURL: env.VITE_APP_API_BASE_URL,
     statesHook: vueHook,
     requestAdapter: adapterFetch(),

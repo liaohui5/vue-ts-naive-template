@@ -17,7 +17,7 @@ export const login = (data: ILoginForm) => {
 export async function refreshAccessToken() {
   const refreshToken = tokenManager.getRefreshToken();
   const alovaMethod = http.Get<IRefreshTokenResponse>("/api/refresh_access_token", {
-    cacheFor: null, // 不允许缓存
+    cacheFor: null, // 不允许使用缓存
     params: {
       refreshToken,
       // expired: "1", // MSW: 模拟 refreshToken 过期
