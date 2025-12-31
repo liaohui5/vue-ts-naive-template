@@ -1,6 +1,7 @@
 import vueHook from "alova/vue";
-import { axiosRequestAdapter } from "@alova/adapter-axios";
-import { axiosInst } from "@/tools/http/axiosInst";
+import adapterFetch from "alova/fetch";
+// import { axiosRequestAdapter } from "@alova/adapter-axios";
+// import { axiosInst } from "@/tools/http/axiosInst";
 import { createAlova } from "alova";
 import { createServerTokenAuthentication } from "alova/client";
 import { refreshAccessToken } from "@/api/auth";
@@ -54,16 +55,20 @@ function createAlovaInst() {
 
     // 注意阅读适配器文档
     // https://alova.js.org/zh-CN/resource/request-adapter/axios/
-    // @ts-ignore
-    requestAdapter: axiosRequestAdapter({
-      axios: axiosInst,
-    }),
+    // BUG: https://github.com/alovajs/alova/issues/772
+    // requestAdapter: axiosRequestAdapter({
+    //   axios: axiosInst,
+    // }),
+    requestAdapter: adapterFetch(),
 
     // @ts-ignore
     beforeRequest: onAuthRequired(),
 
     // @ts-ignore
-    responded: onResponseRefreshToken(),
+    responded: onResponseRefreshToken(async (res) => {
+      const body = await res.json();
+      return body.data;
+    }),
   });
 }
 
