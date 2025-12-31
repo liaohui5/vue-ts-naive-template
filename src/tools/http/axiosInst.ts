@@ -1,7 +1,7 @@
 import { env } from "@/tools";
 import type { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import axios from "axios";
-import { validationErrorHandler, internalErrorHandler, accessTokenExpiredHandler } from "./interceptors/error-handler";
+import { validationErrorHandler, internalErrorHandler } from "./interceptors/error-handler";
 import { genRequestId, withBearerToken } from "./interceptors/request";
 import { unwrapData } from "./interceptors/response";
 
@@ -25,7 +25,7 @@ export type ErrorInterceptor = (error: AxiosError) => Promise<AxiosError> | Prom
  * @param errInterceptors - 错误拦截器数组，用于在响应报错(比如HTTP响应状态码500)的执行逻辑
  * @returns 返回一个配置好拦截器的Axios实例
  */
-export function createHttpClient(
+export function createAxiosInst(
   baseConfig: AxiosRequestConfig,
   reqInterceptors: Array<RequestInterceptor> = [],
   resInterceptors: Array<ResponseInterceptor> = [],
@@ -49,47 +49,20 @@ export function createHttpClient(
   return client;
 }
 
-/**
- * 判断一个请求是否是用来刷新 token 的请求
- * 注意修改 axios.d.ts 否则会有 ts 类型错误
- *
- * @param config AxiosRequestConfig 请求配置
- * @returns {Boolean} 返回一个布尔值, 是否是用来刷新 token 的请求
- */
-export const isRefreshTokenRequest = (config: AxiosRequestConfig): boolean => Boolean(config.isRefreshTokenRequest);
-
-/**
- * 重新发送因 accessToken 过期而失败的请求
- * 为什么不直接在 handleAccessTokenExpired 中处理呢?
- * 为了方便测试, 如果直接写死, 那么无法模拟 axiosInst 和 config 参数
- * 注意修改 axios.d.ts 否则会有 ts 类型错误
- *
- * @param axiosInst AxiosInstance 实例
- * @param config AxiosRequestConfig 请求配置
- */
-export const retryFailedRequest = (axiosInst: AxiosInstance, config: AxiosRequestConfig) => axiosInst.request(config);
-
 /////////////////////////////////////////////////////////////////
 // 创建默认的 http 实例
 // 可以直接使用这个实例, 也可以根据需要手动创建一个实例
 /////////////////////////////////////////////////////////////////
-const reqInterceptors: Array<RequestInterceptor> = [genRequestId, withBearerToken];
-const resInterceptors: Array<ResponseInterceptor> = [unwrapData];
-const errInterceptors: Array<ErrorInterceptor> = [
-  internalErrorHandler,
-  validationErrorHandler,
-  accessTokenExpiredHandler,
-];
-
-export const http = createHttpClient(
+export const axiosInst = createAxiosInst(
   {
     baseURL: env.VITE_APP_API_BASE_URL,
-    timeout: 10 * 1000, // 10s
+    timeout: 30 * 1000, // 30s
     headers: {
       "Content-Type": "application/json",
     },
   },
-  reqInterceptors,
-  resInterceptors,
-  errInterceptors,
+  // [genRequestId, withBearerToken],
+  [genRequestId],
+  [unwrapData],
+  [internalErrorHandler, validationErrorHandler],
 );

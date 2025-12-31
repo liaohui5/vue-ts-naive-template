@@ -38,8 +38,10 @@ const store = useAuth();
 const { defineField, handleSubmit, resetForm } = useForm<ILoginForm>({
   validationSchema: loginZod,
   initialValues: {
-    account: "",
-    password: "",
+    // account: "",
+    // password: "",
+    account: "admin@qq.com",
+    password: "123456",
   },
 });
 

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { initMockHttp } from "@/__tests__/helpers";
-import { unwrapData } from "@/tools/http-axios";
+import { unwrapData } from "@/tools/http/interceptors/response";
 
 describe("响应拦截器", () => {
   describe("响应数据解包", () => {

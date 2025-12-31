@@ -7,4 +7,3 @@ export function showMsg(message: string) {
 export function showErrMsg(message: string) {
   window.$message?.error(message);
 }
-

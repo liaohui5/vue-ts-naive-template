@@ -10,11 +10,11 @@ import {
 } from "vue-router-mock";
 import { routes, setRouterInstance, setupRouterGuards } from "@/router";
 import {
-  createHttpClient,
+  createAxiosInst,
   type ErrorInterceptor,
   type RequestInterceptor,
   type ResponseInterceptor,
-} from "@/tools/http-axios";
+} from "@/tools/http/axiosInst";
 
 /**
  * 设置路由模拟器(RouterMock 是专门用于测试 vue-router 的库)
@@ -100,7 +100,7 @@ export function initMockHttp(
     errInterceptors.push(errInterceptor);
   }
 
-  const mockClient = createHttpClient({}, reqInterceptors, resInterceptors, errInterceptors);
+  const mockClient = createAxiosInst({}, reqInterceptors, resInterceptors, errInterceptors);
   const mockServer = new AxiosMockAdapter(mockClient);
   mockServer.reset();
 
