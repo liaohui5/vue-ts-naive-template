@@ -2,7 +2,7 @@ import { env } from "@/tools";
 import type { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import axios from "axios";
 import { validationErrorHandler, internalErrorHandler } from "./interceptors/error-handler";
-import { genRequestId, withBearerToken } from "./interceptors/request";
+import { genRequestId } from "./interceptors/request";
 import { unwrapData } from "./interceptors/response";
 
 export * from "./interceptors/error-handler";
