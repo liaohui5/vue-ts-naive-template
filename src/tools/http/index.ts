@@ -1,9 +1,9 @@
-import vueHook from "alova/vue";
-import adapterFetch from "alova/fetch";
 // import { axiosRequestAdapter } from "@alova/adapter-axios";
 // import { axiosInst } from "@/tools/http/axiosInst";
 import { createAlova } from "alova";
 import { createServerTokenAuthentication } from "alova/client";
+import adapterFetch from "alova/fetch";
+import vueHook from "alova/vue";
 import { refreshAccessToken } from "@/api/auth";
 import { logout } from "@/store/auth";
 import { env, tokenManager } from "@/tools";
