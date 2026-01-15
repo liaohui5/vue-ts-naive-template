@@ -20,11 +20,10 @@ export async function refreshAccessToken() {
     cacheFor: null, // 不允许使用缓存
     params: {
       refreshToken,
-      // expired: "1", // MSW: 模拟 refreshToken 过期
     },
   });
 
-  // 将请求标记为 刷新访问令牌的请求
+  // 将请求标记为: 刷新访问令牌的请求
   alovaMethod.meta = {
     authRole: "refreshToken",
   };

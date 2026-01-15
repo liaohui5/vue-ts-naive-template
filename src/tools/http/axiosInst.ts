@@ -1,9 +1,9 @@
-import { env } from "@/tools";
-import type { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import axios from "axios";
+import { env } from "@/tools";
 import { validationErrorHandler, internalErrorHandler } from "./interceptors/error-handler";
-import { genRequestId } from "./interceptors/request";
+import { genRequestId, withBearerToken } from "./interceptors/request";
 import { unwrapData } from "./interceptors/response";
+import type { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 
 export * from "./interceptors/error-handler";
 export * from "./interceptors/request";
@@ -50,8 +50,8 @@ export function createAxiosInst(
 }
 
 /////////////////////////////////////////////////////////////////
-// 创建默认的 http 实例
-// 可以直接使用这个实例, 也可以根据需要手动创建一个实例
+// 创建默认的 axios 实例
+// 这个实例会应用一些拦截器(包括: 请求/吸引/错误拦截器)
 /////////////////////////////////////////////////////////////////
 export const axiosInst = createAxiosInst(
   {
@@ -61,8 +61,7 @@ export const axiosInst = createAxiosInst(
       "Content-Type": "application/json",
     },
   },
-  // [genRequestId, withBearerToken],
-  [genRequestId],
+  [genRequestId, withBearerToken],
   [unwrapData],
   [internalErrorHandler, validationErrorHandler],
 );
