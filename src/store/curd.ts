@@ -136,7 +136,7 @@ export class CurdStore<T = unknown> {
   supportedFormats = computed<Array<"csv" | "json" | "xlsx">>(() => ["csv", "json", "xlsx"]);
   handleExport = (format: "csv" | "json" | "xlsx") => {
     // TODO: 实现导出功能
-    notify.showMsg("导出功能尚未实现");
+    notify.showMsg(`导出功能尚未实现(导出:${format})`);
   };
 
   constructor(service: ICurdService) {

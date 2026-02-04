@@ -54,7 +54,7 @@ export default defineConfig({
           "naive-ui": ["naive-ui"],
           "lodash-es": ["lodash-es"],
           "vue-router": ["vue-router"],
-          iconify: ["@iconify/iconify"],
+          iconify: ["@iconify/vue"],
           vueuse: ["@vueuse/core"],
           vue: ["vue"],
           pinia: ["pinia"],

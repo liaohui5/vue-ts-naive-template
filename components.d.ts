@@ -11,7 +11,6 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    '(feat': curd table and store)
     CurdTable: typeof import('./src/components/curd-table/index.vue')['default']
     NAvatar: typeof import('naive-ui')['NAvatar']
     NavBar: typeof import('./src/components/nav-bar/index.vue')['default']
@@ -20,7 +19,6 @@ declare module 'vue' {
     NConfigProvider: typeof import('naive-ui')['NConfigProvider']
     NDataTable: typeof import('naive-ui')['NDataTable']
     NDropdown: typeof import('naive-ui')['NDropdown']
-    NEl: typeof import('naive-ui')['NEl']
     NForm: typeof import('naive-ui')['NForm']
     NFormItem: typeof import('naive-ui')['NFormItem']
     NInput: typeof import('naive-ui')['NInput']
@@ -29,12 +27,8 @@ declare module 'vue' {
     NLayoutHeader: typeof import('naive-ui')['NLayoutHeader']
     NModal: typeof import('naive-ui')['NModal']
     NPagination: typeof import('naive-ui')['NPagination']
-    NSwitch: typeof import('naive-ui')['NSwitch']
-    NTable: typeof import('naive-ui')['NTable']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    ThemeSwitch: typeof import('./src/components/nav-bar/theme-switch.vue')['default']
     ThemeSwitcher: typeof import('./src/components/nav-bar/theme-switcher.vue')['default']
-    ThemeToggle: typeof import('./src/components/theme-toggle/index.vue')['default']
   }
 }
