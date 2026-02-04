@@ -30,7 +30,7 @@
 <script setup lang="ts">
 import { useForm } from "vee-validate";
 import { useAuth } from "@/store";
-import { loginZod, type ILoginForm } from "@/validation";
+import { loginZod, type ILoginForm } from "./rules";
 import type { FormItemProps } from "naive-ui";
 
 const store = useAuth();

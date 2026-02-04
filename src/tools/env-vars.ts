@@ -1,4 +1,4 @@
-import { envZod } from "@/validation";
+import * as z from "zod";
 
 // 使用 zod 验证 import.meta.env 中的值, 默认的不用验证, 有些值是 vite 提供的,
 // 比如 MODE, DEV, PROD, SSR, 只需 要验证用户自定义的环境变量即可, 使用经过 zod
@@ -7,4 +7,19 @@ import { envZod } from "@/validation";
 // 2. import.meta.env.xxx 都是字符串, transform 后可以是其他类型的值, 比如 boolean
 // 3. 使用验证后的 env, 可以设置默认值, 即使没有 .env 文件也不会 undefined 导致报错
 // 4. 使用这个变量, 可以防止值被意外修改
+export const envZod = z.object({
+  // vite 在打包的时候会自动注入
+  MODE: z.string(),
+  DEV: z.boolean(),
+  PROD: z.boolean(),
+  SSR: z.boolean(),
+  BASE_URL: z.string(),
+
+  // 接口请求地址
+  VITE_APP_API_BASE_URL: z.string().default(""),
+
+  // 是否启用 mock service worker
+  VITE_APP_USE_MSW: z.enum(["false", "true"]).overwrite((v) => JSON.parse(v)),
+});
+
 export const env = Object.freeze(envZod.parse(import.meta.env));
