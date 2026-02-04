@@ -115,14 +115,10 @@
 git clone https://github.com/lh5template/vuejs-with-vitest ./demo
 cd ./demo
 pnpm install
+# 注意 env 文件
+cp env.example .env
 npm run dev
 # visit http://localhost:8080
-```
-
-## 修改 .env 文件
-
-```sh
-cp env.example .env
 ```
 
 ## MokServiceWorker
