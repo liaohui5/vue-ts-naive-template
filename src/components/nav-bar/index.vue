@@ -16,9 +16,11 @@
       <div class="mr-2">{{ authUser.username }}</div>
       <n-avatar round src="https://raw.githubusercontent.com/liaohui5/images/main/images/202503041407813.jpg" />
       <div class="mx-2">
-        <theme-switcher />
+        <n-button secondary type="error" @click="store.logout">退出登录</n-button>
       </div>
-      <n-button secondary type="error" @click="store.logout">退出登录</n-button>
+
+      <!-- toggle theme -->
+      <theme-switcher />
     </div>
   </header>
 </template>
