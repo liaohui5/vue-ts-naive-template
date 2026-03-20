@@ -1,4 +1,5 @@
 import { getRouterInstance, RouteNames } from "@/router";
+import type { RouteRecordNameGeneric } from "vue-router";
 
 /**
  * useGoto 是一个帮助函数, 用于在组件中进行路由跳转
@@ -27,7 +28,7 @@ export function useGoto() {
    * @param {Object} [params] 重定向时携带的参数
    * @return {Promise<void>} 重定向的 Promise
    */
-  function redirect(RouteName: RouteNames, params = {}) {
+  function redirect(RouteName: RouteRecordNameGeneric, params = {}) {
     return getRouterInstance()?.replace({ name: RouteName, params });
   }
 
@@ -37,7 +38,7 @@ export function useGoto() {
    * @param {Object} [params] 重定向时携带的参数
    * @return {Promise<void>} 重定向的 Promise
    */
-  function gotoPage(RouteName: RouteNames, params = {}) {
+  function gotoPage(RouteName: RouteRecordNameGeneric, params = {}) {
     return getRouterInstance()?.push({ name: RouteName, params });
   }
 

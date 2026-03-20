@@ -4,17 +4,16 @@
 // 1. 错误码是直接用 http 状态码还是在响应体中中定义一个字段(如:errno/code)
 // 2. 具体的值和对应的错误
 ////////////////////////////////////////////////////////////////////////////////
-export enum ErrnoEnum {
+export const ErrnoEnum = {
   // 未登录/token过期
-  Unauthorized = 401,
+  Unauthorized: 401,
 
   // 没有权限/签名验证失败
-  Forbidden = 403,
+  Forbidden: 403,
 
   // 数据验证失败
-  FailedToValidate = 400,
+  FailedToValidate: 400,
 
   // 内部错误
-  InternalError = 500,
-}
-
+  InternalError: 500,
+};

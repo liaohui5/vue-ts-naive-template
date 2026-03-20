@@ -2,10 +2,10 @@ import type { RouteRecordRaw } from "vue-router";
 import Home from "@/views/home/index.vue";
 import Login from "@/views/login/index.vue";
 
-export enum RouteNames {
-  Login = "login",
-  Home = "home",
-}
+export const RouteNames = {
+  Login: "login",
+  Home: "home",
+} as const;
 
 export const routes: RouteRecordRaw[] = [
   {
