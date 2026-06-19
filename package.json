@@ -40,7 +40,7 @@
     "@vue/test-utils": "^2.4.11",
     "@vue/tsconfig": "^0.9.1",
     "axios-mock-adapter": "^2.1.0",
-    "happy-dom": "^16.8.1",
+    "happy-dom": "^20.8.9",
     "husky": "^9.1.7",
     "msw": "2.7.3",
     "naive-ui": "^2.44.1",
