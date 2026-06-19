@@ -1,3 +1,4 @@
+/// <reference types="vitest/config" />
 import { defineConfig } from "vite";
 import tailwindcss from "@tailwindcss/vite";
 import vue from "@vitejs/plugin-vue";
@@ -7,12 +8,18 @@ import { NaiveUiResolver } from "unplugin-vue-components/resolvers";
 
 // https://vite.dev/config/
 export default defineConfig({
+  // 单元测试配置
+  test: {
+    globals: true,
+    environment: "happy-dom",
+    setupFiles: ["./src/__tests__/setupMSW.ts"],
+  },
+
   plugins: [
     vue(),
     tailwindcss(),
-
-    // 自动导入 naive-ui 组件
     AutoImport({
+      // 自动导入 naive-ui 组件
       imports: [
         "vue",
         {
@@ -34,8 +41,7 @@ export default defineConfig({
 
   build: {
     // 打包相关配置: https://cn.vite.dev/config/build-options
-    target: "es2020",
-    cssTarget: "chrome80",
+    target: ["chrome111", "edge111", "firefox114", "safari16.4"],
     reportCompressedSize: false,
     chunkSizeWarningLimit: 1024,
 
