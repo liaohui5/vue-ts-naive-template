@@ -40,3 +40,15 @@ export function isURL(url: string): boolean {
 export function setHtmlTheme(theme: "light" | "dark") {
   document.documentElement.setAttribute("data-theme", theme);
 }
+
+/**
+ * 是否启用 msw 模拟接口(必须是开发模式并且apiBaseURL没有值才启用)
+ * @returns {boolean}
+ */
+export function isUseMSW() {
+  if (!env.DEV) {
+    return false;
+  }
+  const apiUrl = env.VITE_APP_API_BASE_URL;
+  return apiUrl == "" || apiUrl == "/";
+}

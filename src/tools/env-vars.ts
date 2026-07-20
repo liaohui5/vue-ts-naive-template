@@ -8,7 +8,7 @@ import * as z from "zod";
 // 3. 使用验证后的 env, 可以设置默认值, 即使没有 .env 文件也不会 undefined 导致报错
 // 4. 使用这个变量, 可以防止值被意外修改
 export const envZod = z.object({
-  // vite 在打包的时候会自动注入
+  // vite 在打包的时候会自动注入这些变量
   MODE: z.string(),
   DEV: z.boolean(),
   PROD: z.boolean(),
@@ -17,9 +17,6 @@ export const envZod = z.object({
 
   // 接口请求地址
   VITE_APP_API_BASE_URL: z.string().default(""),
-
-  // 是否启用 mock service worker
-  VITE_APP_USE_MSW: z.enum(["false", "true"]).overwrite((v) => JSON.parse(v)),
 });
 
 export const env = Object.freeze(envZod.parse(import.meta.env));
