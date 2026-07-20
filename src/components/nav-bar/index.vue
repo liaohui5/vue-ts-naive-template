@@ -14,7 +14,7 @@
 
     <div class="inline-flex items-center">
       <div class="mr-2">{{ authUser.username }}</div>
-      <n-avatar round src="https://raw.githubusercontent.com/liaohui5/images/main/images/202503041407813.jpg" />
+      <n-avatar round src="https://avatars.githubusercontent.com/u/29266093" />
       <div class="mx-2">
         <n-button secondary type="error" @click="store.logout">退出登录</n-button>
       </div>
