@@ -28,4 +28,4 @@ export const removeTokens = () => {
  * 获取带有 Bearer 前缀的 accessToken
  * @returns {string} - 带有 Bearer 前缀的 accessToken
  */
-export const getBearerToken = () => `Bearer ${getAccessToken()}`;
+export const getBearerToken = (): string => `Bearer ${getAccessToken()}`;
