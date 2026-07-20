@@ -12,3 +12,11 @@ export const unwrapData = (res: AxiosResponse) => {
   }
   return body as AxiosResponse;
 };
+
+export const unwrapResult = (res: AxiosResponse) => {
+  const body = res.data;
+  if (isObject(body) && "result" in body) {
+    return body.result as AxiosResponse;
+  }
+  return body as AxiosResponse;
+};
