@@ -14,7 +14,7 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@alova/adapter-axios": "^2.0.19",
+    "@alova/adapter-axios": "^2.0.20",
     "@vueuse/core": "^12.8.2",
     "alova": "^3.5.4",
     "axios": "^1.19.0",
@@ -28,7 +28,7 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
-    "@iconify/json": "^2.2.515",
+    "@iconify/json": "^2.2.518",
     "@iconify/vue": "^5.0.1",
     "@tailwindcss/postcss": "^4.3.3",
     "@tailwindcss/vite": "^4.3.3",
@@ -43,15 +43,15 @@
     "happy-dom": "^16.8.1",
     "husky": "^9.1.7",
     "msw": "2.7.3",
-    "naive-ui": "^2.44.1",
+    "naive-ui": "^2.45.0",
     "tailwindcss": "4.0.14",
     "typescript": "~6.0.3",
     "unplugin-auto-import": "^20.3.0",
     "unplugin-vue-components": "^30.0.0",
     "vite": "^8.2.1",
-    "vitest": "^4.1.10",
+    "vitest": "^4.1.11",
     "vue-router-mock": "^1.1.0",
-    "vue-tsc": "^3.3.9",
+    "vue-tsc": "^3.3.10",
     "zocker": "^2.3.0"
   },
   "msw": {
